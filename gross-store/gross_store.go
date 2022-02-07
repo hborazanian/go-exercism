@@ -2,16 +2,14 @@ package gross
 
 // Units stores the Gross Store unit measurements.
 func Units() map[string]int {
-	units := make(map[string]int)
-
-	units["quarter_of_a_dozen"] = 3
-	units["half_of_a_dozen"] = 6
-	units["dozen"] = 12
-	units["small_gross"] = 120
-	units["gross"] = 144
-	units["great_gross"] = 1728
-
-	return units
+	return map[string]int{
+		"quarter_of_a_dozen": 3,
+		"half_of_a_dozen":    6,
+		"dozen":              12,
+		"small_gross":        120,
+		"gross":              144,
+		"great_gross":        1728,
+	}
 }
 
 // NewBill creates a new bill.
@@ -21,20 +19,14 @@ func NewBill() map[string]int {
 
 // AddItem adds an item to customer bill.
 func AddItem(bill, units map[string]int, item, unit string) bool {
-	_, hasUnit := units[unit]
+	value, hasUnit := units[unit]
 
-	if !hasUnit {
-		return false
+	if hasUnit {
+		bill[item] += value
+		return true
 	}
 
-	_, hasItem := bill[item]
-
-	if !hasItem {
-		bill[item] = 0
-	}
-
-	bill[item] += units[unit]
-	return true
+	return false
 }
 
 // RemoveItem removes an item from customer bill.
